@@ -1,31 +1,32 @@
-# Needleman–Wunsch DNA Sequence Alignment
+# Needleman-Wunsch Algorithm 🧬
 
-A C++ implementation of the Needleman–Wunsch algorithm for finding the optimal **global alignment** between two DNA sequences using dynamic programming.
+A C++ implementation of the **Needleman-Wunsch algorithm** for global DNA sequence alignment using a dynamic programming approach.
+
+The program takes two DNA sequences along with user-defined scoring parameters and calculates the optimal matching score.
 
 ---
 
-## 🧬 About the Project
+## 📌 About the Project
 
-The Needleman–Wunsch algorithm is a dynamic programming algorithm used for global sequence alignment.
+This project implements the Needleman-Wunsch algorithm to perform **global sequence alignment of DNA nucleotides**.
 
-This project:
+The program:
 
-- Takes two DNA sequences as input
-- Constructs the dynamic programming scoring matrix
-- Performs traceback to find the optimal alignment
-- Calculates the final alignment score
+- Uses dynamic programming to construct the alignment matrix.
+- Calculates a matching score for two DNA sequences.
+- Performs backtracking to determine the optimal alignment score.
+- Allows the user to define the scoring parameters.
+
+The program is split across multiple C++ files to separate different parts of the implementation.
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-needleman-wunsch/
-├── src/
-│   ├── main.cpp
-│   ├── needleman_wunsch.cpp
-│   └── needleman_wunsch.h
-├── data/
-│   └── sequences.txt
-├── README.md
-└── .gitignore
+Needleman-Wunsch-Algorithm/
+│
+├── matrixCreation.cpp
+├── backTracking.cpp
+├── Input_Examples
+└── README.md
