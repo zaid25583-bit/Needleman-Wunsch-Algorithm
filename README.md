@@ -103,7 +103,7 @@ The program is divided into two C++ source files:
 Compile both files together using:
 
 ```bash
-g++ matrixCreation.cpp backTracking.cpp -o needlemanWunsch
+g++ -Iinclude src/matrixCreation.cpp src/backTracking.cpp -o needlemanWunsch
 ```
 
 This creates an executable named:
