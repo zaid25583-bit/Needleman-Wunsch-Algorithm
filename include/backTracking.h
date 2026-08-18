@@ -10,7 +10,8 @@ int backTrack (
   const std::string seqTwo, 
   int match,
   int pMismatch,
-  int pGap
+  int pGap,
+  int temp
 );
 
 #endif
