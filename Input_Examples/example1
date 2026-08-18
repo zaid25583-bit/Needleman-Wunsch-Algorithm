@@ -1,0 +1,9 @@
+INPUT:
+  First Sequence: ACCGGTAT
+  Second Sequence: ACCTATC
+  Match bonus: 2
+  Mismatch penalty: -1
+  Gap penalty: -1
+
+OUTPUT:
+  The final score is: 9
