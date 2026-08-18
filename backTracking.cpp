@@ -77,6 +77,6 @@ int main() {
     
     int score = backTrack(seqMatrix, seqOne, seqTwo, match, pMismatch, pGap);
     cout << endl;
-    cout << "The score final score is: " << score << endl;
+    cout << "The final score is: " << score << endl;
     return 0;
 }
