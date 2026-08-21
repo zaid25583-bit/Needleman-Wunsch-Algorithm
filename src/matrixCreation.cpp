@@ -54,27 +54,32 @@ void displaySeqMatrix(string seqOne, string seqTwo, vector<vector<int>> seqMatri
 
     cout << endl;
 
-    cout << "\t ";
-    for (int i = 0; i < m + 1; i++) {
-        cout << "\t";
-        cout << seqOne[i];
+    // Print seqOne along the top
+    cout << "\t\t";
+
+    for (int i = 0; i < m; i++) {
+        cout << seqOne[i] << "\t";
     }
+
     cout << endl;
 
-    int stringInd = 0;
-    cout << endl;
+    // Print matrix
+    for (int i = 0; i < n + 1; i++) {
 
-    for (int i = 0; i < m + 1; i++) {
-        if (i != 0) {
-            cout << seqTwo[stringInd];
-            stringInd++;
-        }
+        cout << endl;
 
-        for (int j = 0; j < n + 1; j++) {
+        // Print seqTwo character on the left
+        if (i == 0) {
             cout << "\t";
-            cout << seqMatrix[j][i];
+        } else {
+            cout << seqTwo[i - 1] << "\t";
         }
-        cout << "\n" << endl;
+
+        for (int j = 0; j < m + 1; j++) {
+            cout << seqMatrix[i][j] << "\t";
+        }
+
+        cout << endl;
     }
 }
 
