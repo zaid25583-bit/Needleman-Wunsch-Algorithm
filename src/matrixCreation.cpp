@@ -81,6 +81,8 @@ void displaySeqMatrix(string seqOne, string seqTwo, vector<vector<int>> seqMatri
 
         cout << endl;
     }
+
+    cout << endl;
 }
 
 

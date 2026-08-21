@@ -5,61 +5,137 @@
 
 using namespace std;
 
+void recursion(
+            vector<vector<int>> seqMatrix,
+            string seqOne,
+            string seqTwo,
+            int match,
+            int pMismatch,
+            int pGap,
+            string currStringOne,
+            string currStringTwo,
+            int currIdxSeqOne,
+            int currIdxSeqTwo,
+            vector<vector<string>>& alignedSequences) 
+{
+    if (currIdxSeqOne == 0 && currIdxSeqTwo == 0) {
+        vector<string> curr = {currStringOne, currStringTwo};
+        alignedSequences.push_back(curr);
+        return;
+    }
 
-int backTrack(vector<vector<int>> seqMatrix, string seqOne, string seqTwo, int match, int pMismatch, int pGap) {
-    int i, j;
-    i = seqTwo.size();
-    j = seqOne.size();
-    int score = 0;
+    if (currIdxSeqTwo == 0) {
+        while (currIdxSeqOne > 0) {
+            currStringOne = seqOne[currIdxSeqOne - 1] + currStringOne;
+            currStringTwo = "_" + currStringTwo;
+            currIdxSeqOne--;
+        }
 
-    while (i > 0 && j > 0) {
-        int scoreUp = seqMatrix[i - 1][j];
-        int scoreLeft = seqMatrix[i][j - 1];
-        int scoreDiag = seqMatrix[i - 1][j - 1];
-
-        char nucleotideOne = seqOne[j - 1];
-        char nucleotideTwo = seqTwo[i - 1];
-
-        int remLeft, remDiag;
-        int matchingNucleotide;
-        if (nucleotideOne == nucleotideTwo) {
-            remDiag = scoreDiag + match;
-            matchingNucleotide = 1;
-        }
-        else {
-            remDiag = scoreDiag + pMismatch;
-            matchingNucleotide = 0;
-        }
-        remLeft = scoreLeft + pGap;
-
-        if (remDiag == seqMatrix[i][j]) {
-            i--;
-            j--;
-            if (matchingNucleotide) {
-                score += match;
-            }
-            else {
-                score += pMismatch;
-            }
-        }
-        else if (remLeft == seqMatrix[i][j]) {
-            score += pGap;
-            j--;
-        }
-        else {
-            score += pGap;
-            i--;
-        }
+        alignedSequences.push_back({currStringOne, currStringTwo});
+        return;
     }
     
-    if (i > 0) {
-        score += pGap * i;
-    }
-    if (j > 0) {
-        score += pGap * j;
+    if (currIdxSeqOne == 0) {
+        while (currIdxSeqTwo > 0) {
+            currStringOne = "_" + currStringOne;
+            currStringTwo = seqTwo[currIdxSeqTwo - 1] + currStringTwo;
+            currIdxSeqTwo--;
+        }
+
+        alignedSequences.push_back({currStringOne, currStringTwo});
+        return;
     }
 
-    return score;
+    char topChar = seqOne[currIdxSeqOne - 1];
+    char leftChar = seqTwo[currIdxSeqTwo - 1];
+
+    int remDiag = seqMatrix[currIdxSeqTwo - 1][currIdxSeqOne - 1];
+    int remLeft = seqMatrix[currIdxSeqTwo][currIdxSeqOne - 1] + pGap;
+    int remUp = seqMatrix[currIdxSeqTwo - 1][currIdxSeqOne] + pGap;
+
+    if (topChar == leftChar) {
+        remDiag += match;
+    }
+    else {
+        remDiag += pMismatch;
+    }
+
+    // use recursion now using by checking cases
+    int currRem = seqMatrix[currIdxSeqTwo][currIdxSeqOne];
+
+    if (remDiag == currRem) {
+        string newStringOne = seqOne[currIdxSeqOne - 1] + currStringOne;
+        string newStringTwo = seqTwo[currIdxSeqTwo - 1] + currStringTwo;
+
+        recursion(
+            seqMatrix, seqOne, seqTwo,
+            match, pMismatch, pGap,
+            newStringOne, newStringTwo,
+            currIdxSeqOne - 1, currIdxSeqTwo - 1,
+            alignedSequences
+        );
+    }
+
+    if (remUp == currRem) {
+        string newStringOne = "_" + currStringOne;
+        string newStringTwo = seqTwo[currIdxSeqTwo - 1] + currStringTwo;
+
+        recursion(
+            seqMatrix, seqOne, seqTwo,
+            match, pMismatch, pGap,
+            newStringOne, newStringTwo,
+            currIdxSeqOne, currIdxSeqTwo - 1,
+            alignedSequences
+        );
+    }
+
+    if (remLeft == currRem) {
+        string newStringOne = seqOne[currIdxSeqOne - 1] + currStringOne;
+        string newStringTwo = "_" + currStringTwo;
+
+        recursion(
+            seqMatrix, seqOne, seqTwo,
+            match, pMismatch, pGap,
+            newStringOne, newStringTwo,
+            currIdxSeqOne - 1, currIdxSeqTwo,
+            alignedSequences
+        );
+    }
+}
+
+void printPossibleAlignments(vector<vector<string>> alignedSequences) {
+    int count = 1;
+
+    for (vector<string> alignment : alignedSequences) {
+        cout << "Alignment " << count << ":" << endl;
+
+        for (string sequence : alignment) {
+            cout << sequence << endl;
+        }
+
+        cout << endl;
+        count++;
+    }
+}
+
+void printScore(vector<string> curr, int match, int pMismatch, int pGap) {
+    int score = 0;
+    string arrangementOne = curr[0];
+    string arrangementTwo = curr[1];
+    int n = arrangementOne.size();
+    for (int i = 0; i < n; i++) {
+        if (arrangementOne[i] == '_' || arrangementTwo[i] == '_') {
+            score += pGap;
+        }
+        else if (arrangementOne[i] == arrangementTwo[i]) {
+            score += match;
+        }
+        else {
+            score += pMismatch;
+        }
+    }
+
+    cout << "Matching score: " << score << endl;
 }
 
 int main() {
@@ -77,8 +153,15 @@ int main() {
 
     displaySeqMatrix(seqOne, seqTwo, seqMatrix);
     
-    int score = backTrack(seqMatrix, seqOne, seqTwo, match, pMismatch, pGap);
-    cout << endl;
-    cout << "The final score is: " << score << endl;
+    string currStringOne;
+    string currStringTwo;
+    int currIdxSeqOne = m;
+    int currIdxSeqTwo = n;
+    vector<vector<string>> alignedSequences;
+
+    recursion(seqMatrix, seqOne, seqTwo, match, pMismatch, pGap, currStringOne, currStringTwo, currIdxSeqOne, currIdxSeqTwo, alignedSequences);
+    printPossibleAlignments(alignedSequences);
+
+    printScore(alignedSequences[0], match, pMismatch, pGap);
     return 0;
 }
