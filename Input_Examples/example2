@@ -6,4 +6,10 @@ INPUT:
   Gap penalty: -3
 
 OUTPUT:
-  The final score is: 12
+  "Final score matrix will be shown"
+
+  Alignment 1:
+  GC_TTAGC
+  GCATT_GC
+
+  Matching score : 12

@@ -6,4 +6,10 @@ INPUT:
   Gap penalty: -1
 
 OUTPUT:
-  The final score is: 9
+  "Final score matrix will be shown"
+
+  Alignment 1:
+  ACCGGTAT_
+  ACC__TATC
+
+  Matching score : 9
