@@ -74,6 +74,8 @@ int main() {
 
     vector<vector<int>> seqMatrix(n + 1, vector<int>(m + 1));
     seqMatrix = createSeqMatrix(seqOne, seqTwo, pGap, pMismatch, match);
+
+    displaySeqMatrix(seqOne, seqTwo, seqMatrix);
     
     int score = backTrack(seqMatrix, seqOne, seqTwo, match, pMismatch, pGap);
     cout << endl;
